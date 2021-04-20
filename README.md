@@ -23,7 +23,7 @@ Team model properties:
 Membership model properties:
 - id
 - user
-- membership
+- team
 
 Controllers
 - UserController
