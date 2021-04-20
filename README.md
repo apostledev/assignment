@@ -1,6 +1,6 @@
 # assignment
 
-Opdracht Badr
+Opdracht Bader
 
 Setup:
 - Maak een nieuw Laravel 8 project aan op een Homestead omgeving die op Vagrant draait.
