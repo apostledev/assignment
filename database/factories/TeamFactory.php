@@ -2,15 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
+use App\Models\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class UserFactory extends Factory
+class TeamFactory extends Factory
 {
     /**
      * @var string
      */
-    protected $model = User::class;
+    protected $model = Team::class;
 
     /**
      * @var array
@@ -18,7 +18,7 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
+            'name' => $this->faker->name()
         ];
     }
 }
