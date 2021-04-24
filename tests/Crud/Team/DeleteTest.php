@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\CRUD\Team;
+namespace Tests\CRUD\Membership;
 
 use App\Models\Membership;
 use App\Models\Team;
@@ -12,31 +12,23 @@ class DeleteTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_if_team_show_endpoint_shows_the_right_team()
+    public function test_if_membership_can_be_deleted()
     {
-        $teams = Team::factory(2)->create();
-        $this->delete('/team/' . $teams[0]['id'])->assertStatus(200);
-        $this->get('/team')->assertJsonFragment(["name" => $teams[1]->name]);
-        $this->get('/team')->assertJsonMissing(["name" => $teams[0]->name]);
-    }
-
-    public function test_if_all_memberships_are_deleted()
-    {
-        $teams = Team::factory(1)->create();
-        $users = User::factory(1)->create();
+        User::factory(1)->create();
+        Team::factory(1)->create();
 
         $membership = new Membership();
-        $membership->user_id = $users[0]->id;
-        $membership->team_id = $teams[0]->id;
+        $membership->user_id = User::first()->id;
+        $membership->team_id = Team::first()->id;
         $membership->save();
 
-        $this->delete('/team/' . $teams[0]->id)->assertStatus(200);
+        $this->delete("/membership/" . $membership->id);
 
         $this->assertEquals(0, Membership::count());
     }
 
-    public function test_if_404_on_not_found_id()
+    public function test_if_membership_returns_404_on_non_found_id()
     {
-        $this->delete('/team/999')->assertStatus(404);
+        $this->delete("/membership/999")->assertStatus(404);
     }
 }
