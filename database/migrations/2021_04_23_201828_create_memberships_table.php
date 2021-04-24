@@ -12,11 +12,12 @@ class CreateMembershipsTable extends Migration
     public function up()
     {
         Schema::create('memberships', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('team_id')->constrained();
             $table->timestamps();
 
-            $table->primary(['user_id', 'team_id']);
+            $table->unique(['user_id', 'team_id']);
         });
     }
 

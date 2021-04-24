@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Membership;
 use App\Models\Team;
 use Illuminate\Http\Request;
-use \Illuminate\Http\Response;
+use Illuminate\Http\Response;
 
 class TeamController extends Controller
 {
@@ -22,16 +23,24 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        // TODO: save the team
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+        ]);
+
+        $team = new Team();
+        $team->fill($validated);
+        $team->save();
+
+        return $team;
     }
 
     /**
-     * @param  Team  $team
+     * @param string $teamId
      * @return Response
      */
-    public function show(Team $team)
+    public function show(string $teamId)
     {
-        // TODO: show team with all players
+        return Team::with('users')->where('id', $teamId)->get();
     }
 
     /**
@@ -41,7 +50,13 @@ class TeamController extends Controller
      */
     public function update(Request $request, Team $team)
     {
-        // TODO: update team
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+        ]);
+
+        $team->update($validated);
+
+        return $team;
     }
 
     /**
@@ -50,6 +65,7 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
-        // TODO: remove team with memberships
+        Membership::where('team_id', $team->id)->delete();
+        return $team->delete();
     }
 }
