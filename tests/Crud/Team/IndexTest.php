@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\CRUD\Team;
 
 use App\Models\Team;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,15 +13,15 @@ class IndexTest extends TestCase
     public function test_if_index_shows_team_route()
     {
         $teams = Team::factory(1)->create();
-        $response = $this->get('/team');
-        $response->assertJsonFragment(['name' => $teams[0]->name]);
+        $this->get('/team')->assertJsonFragment(['name' => $teams[0]->name]);
     }
 
     public function test_if_pagination_works()
     {
         $teams = Team::factory(16)->create();
-        $response = $this->get('/team');
-        $response->assertJsonFragment(['name' => $teams[14]->name]);
-        $response->assertJsonMissing(['name' => $teams[15]->name]);
+        $this
+            ->get('/team')
+            ->assertJsonFragment(['name' => $teams[14]->name])
+            ->assertJsonMissing(['name' => $teams[15]->name]);
     }
 }
