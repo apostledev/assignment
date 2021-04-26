@@ -15,9 +15,9 @@ class DeleteTest extends TestCase
     public function test_if_team_show_endpoint_shows_the_right_team()
     {
         $teams = Team::factory(2)->create();
-        $this->delete('/team/' . $teams[0]['id'])->assertStatus(200);
-        $this->get('/team')->assertJsonFragment(["name" => $teams[1]->name]);
-        $this->get('/team')->assertJsonMissing(["name" => $teams[0]->name]);
+        $this->delete('/api/team/' . $teams[0]['id'])->assertStatus(200);
+        $this->get('/api/team')->assertJsonFragment(["name" => $teams[1]->name]);
+        $this->get('/api/team')->assertJsonMissing(["name" => $teams[0]->name]);
     }
 
     public function test_if_all_memberships_are_deleted()
@@ -30,13 +30,13 @@ class DeleteTest extends TestCase
         $membership->team_id = $teams[0]->id;
         $membership->save();
 
-        $this->delete('/team/' . $teams[0]->id)->assertStatus(200);
+        $this->delete('/api/team/' . $teams[0]->id)->assertStatus(200);
 
         $this->assertEquals(0, Membership::count());
     }
 
     public function test_if_404_on_not_found_id()
     {
-        $this->delete('/team/999')->assertStatus(404);
+        $this->delete('/api/team/999')->assertStatus(404);
     }
 }

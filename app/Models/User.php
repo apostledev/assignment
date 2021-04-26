@@ -14,8 +14,8 @@ class User extends Model
      */
     protected $fillable = ['name'];
 
-    public function teams()
+    public function memberships()
     {
-        return $this->hasManyThrough(Team::class, Membership::class, 'team_id', 'id');
+        return $this->hasMany(Membership::class);
     }
 }

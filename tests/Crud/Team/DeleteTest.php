@@ -22,13 +22,13 @@ class DeleteTest extends TestCase
         $membership->team_id = Team::first()->id;
         $membership->save();
 
-        $this->delete("/membership/" . $membership->id);
+        $this->delete("/api/membership/" . $membership->id);
 
         $this->assertEquals(0, Membership::count());
     }
 
     public function test_if_membership_returns_404_on_non_found_id()
     {
-        $this->delete("/membership/999")->assertStatus(404);
+        $this->delete("/api/membership/999")->assertStatus(404);
     }
 }

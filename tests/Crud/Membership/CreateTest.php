@@ -17,19 +17,19 @@ class CreateTest extends TestCase
         $users = User::factory(1)->create();
         $teams = Team::factory(1)->create();
 
-        $this->post('/membership', [
+        $this->post('/api/membership', [
             "user_id" => $users[0]->id,
             "team_id" => $teams[0]->id,
         ])->assertStatus(201);
 
-        $this->get('/team/' . $teams[0]->id)->assertJsonFragment(["name" => $users[0]->name]);
+        $this->get('/api/team/' . $teams[0]->id)->assertJsonFragment(["name" => $users[0]->name]);
     }
 
     public function test_if_membership_can_not_me_made_with_wrong_user_id()
     {
         $teams = Team::factory(1)->create();
 
-        $this->post('/membership', [
+        $this->post('/api/membership', [
             "user_id" => "999",
             "team_id" => $teams[0]->id,
         ])->assertStatus(302);
@@ -39,7 +39,7 @@ class CreateTest extends TestCase
     {
         $users = User::factory(1)->create();
 
-        $this->post('/membership', [
+        $this->post('/api/membership', [
             "user_id" => $users[0]->id,
             "team_id" => "999",
         ])->assertStatus(302);
@@ -55,7 +55,7 @@ class CreateTest extends TestCase
         $membership->team_id = Team::first()->id;
         $membership->save();
 
-        $this->post('/membership', [
+        $this->post('/api/membership', [
             "user_id" => $users[0]->id,
             "team_id" => $teams[0]->id,
         ])->assertStatus(302);

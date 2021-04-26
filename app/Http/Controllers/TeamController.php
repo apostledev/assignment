@@ -14,7 +14,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        return Team::paginate(15);
+        return Team::orderBy('created_at', 'desc')->paginate(15);
     }
 
     /**
@@ -40,7 +40,7 @@ class TeamController extends Controller
      */
     public function show(string $teamId)
     {
-        return Team::with('users')->where('id', $teamId)->get();
+        return Team::with('memberships', 'memberships.user')->where('id', $teamId)->first();
     }
 
     /**

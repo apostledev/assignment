@@ -13,14 +13,14 @@ class IndexTest extends TestCase
     public function test_if_index_shows_team_route()
     {
         $users = User::factory(1)->create();
-        $this->get('/user')->assertJsonFragment(['name' => $users[0]->name]);
+        $this->get('/api/user')->assertJsonFragment(['name' => $users[0]->name]);
     }
 
     public function test_if_pagination_works()
     {
         $users = User::factory(16)->create();
         $this
-            ->get('/user')
+            ->get('/api/user')
             ->assertJsonFragment(['name' => $users[14]->name])
             ->assertJsonMissing(['name' => $users[15]->name]);
     }
