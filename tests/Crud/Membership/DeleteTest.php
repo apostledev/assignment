@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\CRUD\Team;
+namespace Tests\CRUD\Membership;
 
 use App\Models\Membership;
 use App\Models\Team;

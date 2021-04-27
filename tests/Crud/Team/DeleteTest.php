@@ -1,10 +1,8 @@
 <?php
 
-namespace Tests\CRUD\Membership;
+namespace Tests\CRUD\Team;
 
-use App\Models\Membership;
 use App\Models\Team;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,23 +10,15 @@ class DeleteTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_if_membership_can_be_deleted()
+    public function test_if_team_can_be_deleted()
     {
-        User::factory(1)->create();
-        Team::factory(1)->create();
-
-        $membership = new Membership();
-        $membership->user_id = User::first()->id;
-        $membership->team_id = Team::first()->id;
-        $membership->save();
-
-        $this->delete("/api/membership/" . $membership->id);
-
-        $this->assertEquals(0, Membership::count());
+        $teams = Team::factory(1)->create();
+        $this->delete("/api/team/" . $teams[0]->id);
+        $this->assertEquals(0, Team::count());
     }
 
-    public function test_if_membership_returns_404_on_non_found_id()
+    public function test_if_team_returns_404_on_non_found_id()
     {
-        $this->delete("/api/membership/999")->assertStatus(404);
+        $this->delete("/api/team/999")->assertStatus(404);
     }
 }

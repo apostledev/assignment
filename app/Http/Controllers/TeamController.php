@@ -65,7 +65,7 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
-        Membership::where('team_id', $team->id)->delete();
+        $team->memberships()->delete();
         return $team->delete();
     }
 }
